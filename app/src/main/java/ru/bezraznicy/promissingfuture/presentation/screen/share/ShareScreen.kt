@@ -1,5 +1,8 @@
 package ru.bezraznicy.promissingfuture.presentation.screen.share
 
-class ShareScreen() {
-    // TODO
+import androidx.compose.runtime.Composable
+
+@Composable
+fun ShareScreen() {
+
 }

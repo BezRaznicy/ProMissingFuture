@@ -1,6 +1,7 @@
 package ru.bezraznicy.promissingfuture.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavArgumentBuilder
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -9,13 +10,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import ru.bezraznicy.promissingfuture.presentation.screen.launcher.LauncherScreen
+import ru.bezraznicy.promissingfuture.presentation.screen.launcher.LauncherViewModel
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screen.Launcher.route) {
         // Show & Edit Список каталогов
         composable(Screen.Launcher.route) {
-            TODO()
+            val launcherViewModel: LauncherViewModel = viewModel()
+            LauncherScreen(launcherState = launcherViewModel.state, onEvent = launcherViewModel::onEvent)
         }
 
         // Поделиться любой моделью
