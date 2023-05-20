@@ -14,10 +14,10 @@ import androidx.room.PrimaryKey
     )
 ])
 class Knowledge(
-    @PrimaryKey(autoGenerate = true) val id: Long,
-    @ColumnInfo(name = "id_Event") val idEvent: Long,
-
-    val name: String,
+    name: String,
     val description: String?,
-    val attachment: ByteArray?
-): Model()
+    val attachment: ByteArray?,
+
+    id: Long? = null,
+    @ColumnInfo(name = "id_Event") val idEvent: Long?
+): Model(name, id)

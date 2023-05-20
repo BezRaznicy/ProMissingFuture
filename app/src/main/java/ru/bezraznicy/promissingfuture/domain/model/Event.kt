@@ -13,11 +13,11 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE
     )
 ])
-data class Event(
-    @PrimaryKey(autoGenerate = true) val id: Long,
-    @ColumnInfo(name = "id_Catalog") val idCatalog: Long,
-
-    val name: String,
+class Event(
+    name: String,
     val description: String?,
-    val time: String?
-): Model()
+    val time: String?,
+
+    id: Long? = null,
+    @ColumnInfo(name = "id_Catalog") val idCatalog: Long? = null
+): Model(name, id)

@@ -94,7 +94,7 @@ fun CatalogListItem(
 @Composable
 fun CatalogListItemPreviewLight() {
     PromissingFutureTheme {
-        CatalogListItem(catalog = Catalog(1, "Работа"), rememberDismissState(), {}, {}, {})
+        CatalogListItem(catalog = Catalog("Работа"), rememberDismissState(), {}, {}, {})
     }
 }
 
@@ -103,6 +103,6 @@ fun CatalogListItemPreviewLight() {
 @Composable
 fun CatalogListItemPreviewDark() {
     PromissingFutureTheme {
-        CatalogListItem(catalog = Catalog(1, "Работа"), rememberDismissState(), {}, {}, {})
+        CatalogListItem(catalog = Catalog("Работа"), rememberDismissState(), {}, {}, {})
     }
 }

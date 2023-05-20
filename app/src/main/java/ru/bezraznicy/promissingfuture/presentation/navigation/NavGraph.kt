@@ -1,7 +1,10 @@
 package ru.bezraznicy.promissingfuture.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavArgumentBuilder
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -10,15 +13,27 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import ru.bezraznicy.promissingfuture.common.PromissingFuture
+import ru.bezraznicy.promissingfuture.data.repository.CatalogRepository
 import ru.bezraznicy.promissingfuture.presentation.screen.launcher.LauncherScreen
-import ru.bezraznicy.promissingfuture.presentation.screen.launcher.LauncherViewModel
+import ru.bezraznicy.promissingfuture.presentation.screen.launcher.vm.LauncherViewModel
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
+    // Get the current context
+    val context = LocalContext.current
+    // Get the Application instance
+    val application = context.applicationContext as PromissingFuture
     NavHost(navController = navController, startDestination = Screen.Launcher.route) {
         // Show & Edit Список каталогов
         composable(Screen.Launcher.route) {
-            val launcherViewModel: LauncherViewModel = viewModel()
+            val launcherViewModel: LauncherViewModel = viewModel(
+                factory = viewModelFactory {
+                    initializer {
+                        LauncherViewModel(CatalogRepository(application.database.catalogDao()))
+                    }
+                }
+            )
             LauncherScreen(launcherState = launcherViewModel.state, onEvent = launcherViewModel::onEvent)
         }
 
