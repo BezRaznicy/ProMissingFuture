@@ -14,8 +14,8 @@ interface KnowledgeDao {
     @Delete
     fun delete(knowledge: Knowledge)
 
-    @Query("SELECT * FROM knowledge WHERE id = :id")
-    fun selectById(id: Long): Knowledge
+    @Query("SELECT * FROM knowledge WHERE id_Event = :id")
+    fun selectByOwnerId(id: Long): List<Knowledge>
 
     @Query("SELECT * FROM knowledge")
     fun selectAll(): List<Knowledge>

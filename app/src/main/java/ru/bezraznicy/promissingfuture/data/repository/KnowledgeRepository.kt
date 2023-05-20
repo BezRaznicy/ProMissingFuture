@@ -13,8 +13,8 @@ class KnowledgeRepository(private val knowledgeDao: KnowledgeDao): ModelReposito
         knowledgeDao.delete(knowledge)
     }
 
-    override fun selectById(id: Long): Knowledge {
-        return knowledgeDao.selectById(id)
+    override fun selectByOwnerId(id: Long): List<Knowledge> {
+        return knowledgeDao.selectByOwnerId(id)
     }
 
     override fun selectAll(): List<Knowledge> {

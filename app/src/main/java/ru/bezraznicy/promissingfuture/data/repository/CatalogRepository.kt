@@ -12,8 +12,8 @@ class CatalogRepository(private val catalogDao: CatalogDao): ModelRepository<Cat
         catalogDao.delete(catalog)
     }
 
-    override fun selectById(id: Long): Catalog {
-        return catalogDao.selectById(id)
+    override fun selectByOwnerId(id: Long): List<Catalog> {
+        throw UnsupportedOperationException("Catalog is fully free: does not have an owner")
     }
 
     override fun selectAll(): List<Catalog> {

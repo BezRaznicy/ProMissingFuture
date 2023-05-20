@@ -13,8 +13,8 @@ class EventRepository(private val eventDao: EventDao): ModelRepository<Event> {
         eventDao.delete(event)
     }
 
-    override fun selectById(id: Long): Event {
-        return eventDao.selectById(id)
+    override fun selectByOwnerId(id: Long): List<Event> {
+        return eventDao.selectByOwnerId(id)
     }
 
     override fun selectAll(): List<Event> {

@@ -5,7 +5,6 @@ import ru.bezraznicy.promissingfuture.domain.model.Model
 sealed class ModelBasicEvents<T: Model> {
     class Reset<T: Model> : ModelBasicEvents<T>()
 
-    class SelectModel<T: Model>(val model: T): ModelBasicEvents<T>()
     class ShareModel<T: Model>(val model: T): ModelBasicEvents<T>()
 
     class WantToRemoveModel<T: Model>(val model: T): ModelBasicEvents<T>()

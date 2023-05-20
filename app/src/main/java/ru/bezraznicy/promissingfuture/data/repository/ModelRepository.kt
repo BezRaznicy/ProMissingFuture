@@ -5,7 +5,7 @@ interface ModelRepository<T> {
 
     fun delete(catalog: T)
 
-    fun selectById(id: Long): T
+    fun selectByOwnerId(id: Long): List<T>
 
     fun selectAll(): List<T>
 }

@@ -9,20 +9,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.bezraznicy.promissingfuture.data.local.CatalogDao
-import ru.bezraznicy.promissingfuture.data.repository.CatalogRepository
 import ru.bezraznicy.promissingfuture.data.repository.ModelRepository
-import ru.bezraznicy.promissingfuture.domain.model.Catalog
-import ru.bezraznicy.promissingfuture.domain.model.Event
 import ru.bezraznicy.promissingfuture.domain.model.Model
 
-abstract class ModelBaseViewModel<T: Model>(private val modelRepository: ModelRepository<T>): ViewModel() {
+/**
+ * На самом деле используется не совсем как ViewModel, но предполагалась именно так.
+ * @param modelOwner например, у каждого Knowledge есть owner - Event. Вот этот овнер и указывается.
+ */
+class ModelBasicViewModel<T: Model>(
+    private val modelRepository: ModelRepository<T>,
+    private val modelOwner: Model? = null
+): ViewModel() {
     var state by mutableStateOf(ModelBasicState<T>())
         private set
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val modelRepo = modelRepository.selectAll()
+            val modelRepo = if (modelOwner == null) {
+                modelRepository.selectAll()
+            } else {
+                modelRepository.selectByOwnerId(modelOwner.id!!)
+            }
             withContext(Dispatchers.Main) {
                 if (!state.models.containsAll(modelRepo))
                     state = state.copy(models = modelRepo)
@@ -57,9 +64,6 @@ abstract class ModelBaseViewModel<T: Model>(private val modelRepository: ModelRe
                             state = state.copy(wantToRemove = null, removing = false, models = catalogRepo)
                     }
                 }
-            }
-            is ModelBasicEvents.SelectModel -> {
-                TODO()
             }
             is ModelBasicEvents.ShareModel -> {
                 TODO()
