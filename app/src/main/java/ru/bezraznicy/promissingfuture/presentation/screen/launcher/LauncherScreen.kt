@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import ru.bezraznicy.promissingfuture.domain.model.Catalog
 import ru.bezraznicy.promissingfuture.presentation.common.components.BasicModelList
-import ru.bezraznicy.promissingfuture.presentation.screen.launcher.components.CatalogListItem
+import ru.bezraznicy.promissingfuture.presentation.screen.models.components.catalogs.CatalogListItem
 import ru.bezraznicy.promissingfuture.presentation.common.components.ConfirmRemoveDialog
 import ru.bezraznicy.promissingfuture.presentation.common.components.LoadingDialog
 import ru.bezraznicy.promissingfuture.presentation.screen.launcher.vm.LauncherEvent

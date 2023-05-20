@@ -14,7 +14,8 @@ import ru.bezraznicy.promissingfuture.presentation.common.components.LoadingDial
 fun <T: Model> ModelBasicScreen(
     state: ModelBasicState<T>,
     onEvent: (ModelBasicEvents<T>) -> Unit,
-    lazyItemScope: @Composable LazyItemScope.(T, DismissState) -> Unit
+    lazyItemScope: @Composable LazyItemScope.(T, DismissState) -> Unit,
+    modelType: ModelType
 ) {
     if (state.removing) {
         LoadingDialog("Вносим изменения...")
@@ -27,7 +28,7 @@ fun <T: Model> ModelBasicScreen(
         )
     }
     BasicModelList(
-        title = "Каталоги",
+        title = modelType.type,
         onClickAddButton = { onEvent(ModelBasicEvents.WantToAddModel()) },
         items = state.models,
         wantToRemove = state.wantToRemove,

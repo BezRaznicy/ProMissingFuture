@@ -1,4 +1,4 @@
-package ru.bezraznicy.promissingfuture.presentation.screen.launcher.components
+package ru.bezraznicy.promissingfuture.presentation.screen.models.components.catalogs
 
 import android.content.res.Configuration
 import androidx.compose.animation.animateColorAsState
