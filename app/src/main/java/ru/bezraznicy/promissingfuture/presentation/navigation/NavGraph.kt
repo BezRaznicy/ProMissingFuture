@@ -2,9 +2,6 @@ package ru.bezraznicy.promissingfuture.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavArgumentBuilder
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
@@ -14,9 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import ru.bezraznicy.promissingfuture.common.PromissingFuture
-import ru.bezraznicy.promissingfuture.data.repository.CatalogRepository
-import ru.bezraznicy.promissingfuture.presentation.screen.launcher.LauncherScreen
-import ru.bezraznicy.promissingfuture.presentation.screen.launcher.vm.LauncherViewModel
+import ru.bezraznicy.promissingfuture.presentation.screen.models.ModelsScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
@@ -25,16 +20,9 @@ fun SetupNavGraph(navController: NavHostController) {
     // Get the Application instance
     val application = context.applicationContext as PromissingFuture
     NavHost(navController = navController, startDestination = Screen.Launcher.route) {
-        // Show & Edit Список каталогов
+        // Показать список каталогов, список событий в каталоге и список знаний
         composable(Screen.Launcher.route) {
-            val launcherViewModel: LauncherViewModel = viewModel(
-                factory = viewModelFactory {
-                    initializer {
-                        LauncherViewModel(CatalogRepository(application.database.catalogDao()))
-                    }
-                }
-            )
-            LauncherScreen(launcherState = launcherViewModel.state, onEvent = launcherViewModel::onEvent)
+            ModelsScreen(repositoryProvider = application)
         }
 
         // Поделиться любой моделью
@@ -42,18 +30,7 @@ fun SetupNavGraph(navController: NavHostController) {
             TODO()
         }
 
-        // TODO: Может быть это всё объединить с помощью Model...
-        // Show & Edit Catalog
-        composableWithArgument(Screen.CatalogDetail.EMPTY_ROUTE, CATALOG_INFO) {
-            TODO()
-        }
-
-        // Show & Edit Event
-        composableWithArgument(Screen.EventDetail.EMPTY_ROUTE, EVENT_INFO) {
-            TODO()
-        }
-
-        // Show & Edit Knowledge
+        // Показать детали знания
         composableWithArgument(Screen.KnowledgeDetail.EMPTY_ROUTE, KNOWLEDGE_INFO) {
             TODO()
         }
