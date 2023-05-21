@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
@@ -23,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import ru.bezraznicy.promissingfuture.domain.model.Model
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,9 +65,9 @@ fun BasicModelList(
         Row(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth(0.93f)
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = title, style = MaterialTheme.typography.headlineLarge)
+            Text(text = title, style = MaterialTheme.typography.headlineLarge, modifier = Modifier.padding(start = 12.dp))
             IconButton(onClick = onClickAdd) {
                 Icon(Icons.Filled.Add, contentDescription = null)
             }

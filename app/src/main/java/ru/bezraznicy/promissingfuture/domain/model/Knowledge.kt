@@ -16,8 +16,7 @@ import androidx.room.PrimaryKey
 class Knowledge(
     name: String,
     val description: String?,
-    val attachment: ByteArray?,
 
     id: Long? = null,
-    @ColumnInfo(name = "id_Event") val idEvent: Long?
+    @ColumnInfo(name = "id_Event") val idEvent: Long? = null
 ): Model(name, id)

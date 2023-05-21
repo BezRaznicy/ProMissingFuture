@@ -6,8 +6,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
 import ru.bezraznicy.promissingfuture.data.repository.ModelRepository
 import ru.bezraznicy.promissingfuture.data.repository.RepositoryProvider
 import ru.bezraznicy.promissingfuture.domain.model.Catalog
@@ -19,42 +21,51 @@ import ru.bezraznicy.promissingfuture.presentation.common.ModelBasicScreen
 import ru.bezraznicy.promissingfuture.presentation.common.ModelBasicViewModel
 import ru.bezraznicy.promissingfuture.presentation.common.ModelType
 import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
-import ru.bezraznicy.promissingfuture.presentation.screen.models.components.catalogs.CatalogListItem
+import ru.bezraznicy.promissingfuture.presentation.screen.models.components.CatalogListItem
+import ru.bezraznicy.promissingfuture.presentation.screen.models.components.EventItem
+import ru.bezraznicy.promissingfuture.presentation.screen.models.components.KnowledgeItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModelsScreen(
-    repositoryProvider: RepositoryProvider
+    repositoryProvider: RepositoryProvider,
+    navController: NavController
 ) {
-    var selectedModel: Model? by rememberSaveable { mutableStateOf(null) }
+    var selectedModel: Model? by remember { mutableStateOf(null) }
 
     when (selectedModel) {
-        null -> {
-            AbstractScreen(
+        null -> AbstractScreen(
                 repositoryProvider.catalogRepository,
                 onSelectModel = { selectedModel = it },
                 lazyItemScope = { catalog, dismissState, onClick, onRemove, onShare ->
-                    CatalogListItem(catalog, dismissState, {onClick(catalog)}, onRemove, onShare)
+                    CatalogListItem(catalog, dismissState, { onClick(catalog) }, onRemove, onShare)
                 },
-                modelType = ModelType.CATALOG
-            )
-        }
-        is Catalog -> {
-            AbstractScreen(
-                repositoryProvider.catalogRepository,
+                modelType = ModelType.CATALOG,
+                navController = navController
+        )
+        is Catalog -> AbstractScreen(
+                repositoryProvider.eventRepository,
                 onSelectModel = { selectedModel = it },
-                lazyItemScope = { catalog, dismissState, onClick, onRemove, onShare ->
-                    CatalogListItem(catalog, dismissState, {onClick(catalog)}, onRemove, onShare)
+                lazyItemScope = { event, dismissState, onClick, onRemove, onShare ->
+                    EventItem(event, dismissState, { onClick(event) }, onRemove, onShare)
                 },
-                modelType = ModelType.EVENT
+                modelType = ModelType.EVENT,
+                navController = navController
             )
-        }
         is Event -> AbstractScreen(
             repositoryProvider.knowledgeRepository,
-            onSelectModel = { Screen.KnowledgeDetail(it) },
-            lazyItemScope = { catalog, dismissState, onClick, onRemove, onShare ->
+            onSelectModel = { navController.navigate(Screen.KnowledgeDetail(it).route) },
+            lazyItemScope = { knowledge, dismissState, onClick, onRemove, onShare ->
+                KnowledgeItem(
+                    knowledge = knowledge,
+                    dismissState = dismissState,
+                    onClick = { onClick(knowledge) },
+                    onSwipeRemove = onRemove,
+                    onSwipeShare = onShare
+                )
             },
-            modelType = ModelType.KNOWLEDGE
+            modelType = ModelType.KNOWLEDGE,
+            navController = navController
         )
         is Knowledge -> throw IllegalStateException("Should not be knowledge. " +
                 "Redirect to specific screen.")
@@ -68,9 +79,10 @@ fun <T: Model> AbstractScreen(
     onSelectModel: (T) -> Unit,
     modelType: ModelType,
     ownerModel: Model? = null,
+    navController: NavController,
     lazyItemScope: @Composable LazyItemScope.(T, DismissState, (T) -> Unit, () -> Unit, () -> Unit) -> Unit
 ) {
-    val viewModel = rememberSaveable { ModelBasicViewModel(repository, ownerModel) }
+    val viewModel = remember { ModelBasicViewModel(repository, ownerModel) }
     ModelBasicScreen(
         state = viewModel.state,
         onEvent = viewModel::onEvent,
@@ -83,6 +95,7 @@ fun <T: Model> AbstractScreen(
                 { viewModel.onEvent(ModelBasicEvents.ShareModel(model)) }
             )
         },
-        modelType = modelType
+        modelType = modelType,
+        navController = navController
     )
 }

@@ -32,7 +32,7 @@ class PromissingFuture: Application(), RepositoryProvider {
         ).build()
     }
 
-    override val catalogRepository: CatalogRepository = CatalogRepository(database.catalogDao())
-    override val eventRepository: EventRepository = EventRepository(database.eventDao())
-    override val knowledgeRepository: KnowledgeRepository = KnowledgeRepository(database.knowledgeDao())
+    override val catalogRepository: CatalogRepository by lazy { CatalogRepository(database.catalogDao()) }
+    override val eventRepository: EventRepository by lazy { EventRepository(database.eventDao()) }
+    override val knowledgeRepository: KnowledgeRepository by lazy { KnowledgeRepository(database.knowledgeDao()) }
 }

@@ -41,6 +41,7 @@ dependencies {
     val composeBom = platform("androidx.compose:compose-bom:2023.04.01")
     implementation(composeBom)
     androidTestImplementation(composeBom)
+    implementation("org.quartz-scheduler:quartz:2.1.5")
 
     /* Kotlin */
     implementation("androidx.core:core-ktx:1.8.20")
@@ -60,8 +61,6 @@ dependencies {
     val room_version = "2.5.1"
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
-    // To use Kotlin annotation processing tool (kapt)
-    //kapt("androidx.room:room-compiler:$room_version")
 
     /* Retrofit */
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

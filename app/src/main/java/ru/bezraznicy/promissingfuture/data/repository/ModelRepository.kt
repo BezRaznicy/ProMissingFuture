@@ -1,9 +1,11 @@
 package ru.bezraznicy.promissingfuture.data.repository
 
-interface ModelRepository<T> {
-    fun insert(catalog: T)
+import ru.bezraznicy.promissingfuture.domain.model.Model
 
-    fun delete(catalog: T)
+interface ModelRepository<T: Model> {
+    fun insert(model: T)
+
+    fun delete(model: T)
 
     fun selectByOwnerId(id: Long): List<T>
 

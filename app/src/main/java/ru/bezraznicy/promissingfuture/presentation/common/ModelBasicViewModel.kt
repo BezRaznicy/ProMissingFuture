@@ -10,7 +10,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.bezraznicy.promissingfuture.data.repository.ModelRepository
+import ru.bezraznicy.promissingfuture.domain.model.Catalog
+import ru.bezraznicy.promissingfuture.domain.model.Event
+import ru.bezraznicy.promissingfuture.domain.model.Knowledge
 import ru.bezraznicy.promissingfuture.domain.model.Model
+import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
 
 /**
  * На самом деле используется не совсем как ViewModel, но предполагалась именно так.
@@ -20,7 +24,7 @@ class ModelBasicViewModel<T: Model>(
     private val modelRepository: ModelRepository<T>,
     private val modelOwner: Model? = null
 ): ViewModel() {
-    var state by mutableStateOf(ModelBasicState<T>())
+    var state by mutableStateOf(ModelBasicState<T>(modelOwner = modelOwner))
         private set
 
     init {
@@ -47,7 +51,6 @@ class ModelBasicViewModel<T: Model>(
             is ModelBasicEvents.WantToAddModel -> {
                 state = state.copy(wantToAdd = true)
             }
-            is ModelBasicEvents.AddThroughCreate -> TODO()
             is ModelBasicEvents.AddThroughShare -> TODO()
 
             is ModelBasicEvents.WantToRemoveModel -> {
@@ -65,9 +68,13 @@ class ModelBasicViewModel<T: Model>(
                     }
                 }
             }
-            is ModelBasicEvents.ShareModel -> {
-                TODO()
-            }
+            is ModelBasicEvents.ShareModel -> TODO()
         }
+    }
+
+    private fun getChildModelTypeOf(model: Model?) = when(model) {
+        is Catalog -> ModelType.EVENT
+        is Event -> ModelType.KNOWLEDGE
+        else -> ModelType.CATALOG
     }
 }

@@ -11,6 +11,5 @@ sealed class ModelBasicEvents<T: Model> {
     class RemoveModel<T: Model>(val model: T): ModelBasicEvents<T>()
 
     class WantToAddModel<T: Model> : ModelBasicEvents<T>()
-    class AddThroughCreate<T: Model> : ModelBasicEvents<T>()
     class AddThroughShare<T: Model> : ModelBasicEvents<T>()
 }
