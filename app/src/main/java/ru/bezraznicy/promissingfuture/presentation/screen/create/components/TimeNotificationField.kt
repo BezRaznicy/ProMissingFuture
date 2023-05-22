@@ -59,9 +59,9 @@ fun TimeNotificationField(onValueChange: (String) -> Unit, modifier: Modifier = 
     LaunchedEffect(key1 = startDateTime, key2 = period, key3 = duration) {
         val result =
             if (isPeriodic)
-                "$startDateTime/$duration/$period"
+                "$startDateTime$$duration$$period"
             else
-                "$startDateTime/$duration"
+                "$startDateTime$$duration"
 
         onValueChange(result)
     }

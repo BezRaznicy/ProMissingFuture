@@ -35,7 +35,7 @@ class EventNotificationWorker(context: Context, workerParams: WorkerParameters) 
             .setAutoCancel(true)
             .build()
         notificationManager.notify(id.toInt(), notification)
-        if (event.time?.split("/")?.size == 3)
+        if (event.time?.split("$")?.size == 3)
             scheduleEventNotification(applicationContext, event)
         return Result.success()
     }

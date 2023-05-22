@@ -74,6 +74,7 @@ fun SetupNavGraph(navController: NavHostController) {
                  }
             )
             CreateScreen(
+                navController = navController,
                 state = createViewModel.state,
                 onEvent = { createViewModel.onEvent(it) }
             )
@@ -111,6 +112,7 @@ fun SetupNavGraph(navController: NavHostController) {
             }
             )
             CreateScreen(
+                navController = navController,
                 state = createViewModel.state,
                 onEvent = { createViewModel.onEvent(it) }
             )
