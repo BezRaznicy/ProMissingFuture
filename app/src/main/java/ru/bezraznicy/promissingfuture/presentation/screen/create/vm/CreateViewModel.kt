@@ -15,6 +15,7 @@ import ru.bezraznicy.promissingfuture.domain.model.Knowledge
 import ru.bezraznicy.promissingfuture.domain.model.Model
 import ru.bezraznicy.promissingfuture.domain.model.ModelBuilder
 import ru.bezraznicy.promissingfuture.presentation.common.ModelType
+import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
 
 class CreateViewModel<T: Model>(
     private val ownerModel: Long?,
@@ -34,6 +35,10 @@ class CreateViewModel<T: Model>(
         }.also { it.id = model.id }, modelToCreate = modelType)
     }
 
+    init {
+        state = state.softReset()
+    }
+
     fun onEvent(event: CreateEvent) {
         when (event) {
             is CreateEvent.SaveModel -> {
@@ -42,9 +47,14 @@ class CreateViewModel<T: Model>(
                     state.modelBuilder.name = event.name
                     state.modelBuilder.description = event.description
                     state.modelBuilder.time = event.time
-                    repository.insert(state.modelBuilder.build(state.modelToCreate, ownerModel) as T)
+                    var model = state.modelBuilder.build(state.modelToCreate, ownerModel) as T
+                    repository.insert(model)
+                    if (model.id == null) {
+                        state.modelBuilder.id = repository.selectAll().last().id
+                        model = state.modelBuilder.build(state.modelToCreate, ownerModel) as T
+                    }
                     withContext(Dispatchers.Main) {
-                        state = state.copy(loading = false)
+                        state = state.copy(loading = false, navigationDestination = Screen.Launcher, finalModel = model)
                     }
                 }
             }

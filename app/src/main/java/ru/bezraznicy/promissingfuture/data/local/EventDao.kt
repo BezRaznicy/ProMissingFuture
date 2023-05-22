@@ -17,6 +17,9 @@ interface EventDao {
     @Query("SELECT * FROM event WHERE id_Catalog = :id")
     fun selectByOwnerId(id: Long): List<Event>
 
+    @Query("SELECT * FROM event WHERE id = :id")
+    fun selectById(id: Long): Event
+
     @Query("SELECT * FROM event")
     fun selectAll(): List<Event>
 }

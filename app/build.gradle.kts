@@ -38,10 +38,10 @@ android {
 }
 
 dependencies {
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
     val composeBom = platform("androidx.compose:compose-bom:2023.04.01")
     implementation(composeBom)
     androidTestImplementation(composeBom)
-    implementation("org.quartz-scheduler:quartz:2.1.5")
 
     /* Kotlin */
     implementation("androidx.core:core-ktx:1.8.20")

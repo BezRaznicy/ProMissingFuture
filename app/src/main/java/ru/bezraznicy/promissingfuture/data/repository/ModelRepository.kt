@@ -9,5 +9,7 @@ interface ModelRepository<T: Model> {
 
     fun selectByOwnerId(id: Long): List<T>
 
+    fun selectById(id: Long): T
+
     fun selectAll(): List<T>
 }

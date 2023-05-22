@@ -48,6 +48,7 @@ fun SetupNavGraph(navController: NavHostController) {
                 ?.let { if (it == -1L) null else it }
             val modelType = ModelType.valueOf(backStackEntry.arguments!!.getString(MODEL_TYPE)!!)
             val createViewModel: CreateViewModel<Model> = viewModel(
+                // TODO: утечка памяти? Каждый созданный экран = 1 ViewModel в памяти, что плохо
                  factory = viewModelFactory {
                      initializer {
                          when (modelType) {
@@ -88,7 +89,9 @@ fun SetupNavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val gson = backStackEntry.arguments!!.getString(MODEL_TO_EDIT)
             val modelType = backStackEntry.arguments!!.getSerializable(MODEL_TYPE) as ModelType
-            val createViewModel = viewModelFactory {
+            // TODO: утечка памяти? Каждый созданный экран = 1 ViewModel в памяти, что плохо
+            val createViewModel: CreateViewModel<Model> = viewModel(
+                factory = viewModelFactory {
                 initializer {
                     when (modelType) {
                         ModelType.CATALOG -> CreateViewModel(
@@ -105,7 +108,8 @@ fun SetupNavGraph(navController: NavHostController) {
                         )
                     }
                 }
-            }.create(CreateViewModel::class.java)
+            }
+            )
             CreateScreen(
                 state = createViewModel.state,
                 onEvent = { createViewModel.onEvent(it) }

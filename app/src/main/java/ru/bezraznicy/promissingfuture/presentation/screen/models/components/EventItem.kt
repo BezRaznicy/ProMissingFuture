@@ -17,12 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import org.quartz.CronExpression
 import ru.bezraznicy.promissingfuture.domain.model.Event
 import ru.bezraznicy.promissingfuture.presentation.theme.PromissingFutureTheme
-import java.time.temporal.ChronoUnit
 import java.util.Date
-import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,9 +59,7 @@ fun EventItem(
 }
 
 fun getCronInterval(cronExpression: String): Long {
-    val cron = CronExpression(cronExpression)
-    val nextExecutionTime = cron.getNextValidTimeAfter(Date())
-    return nextExecutionTime.time - Date().time
+    return 0L
 }
 
 fun formatDuration(milliseconds: Long): String {

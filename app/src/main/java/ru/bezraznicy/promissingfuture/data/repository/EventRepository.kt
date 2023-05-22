@@ -5,19 +5,13 @@ import ru.bezraznicy.promissingfuture.domain.model.Catalog
 import ru.bezraznicy.promissingfuture.domain.model.Event
 
 class EventRepository(private val eventDao: EventDao): ModelRepository<Event> {
-    override fun insert(event: Event) {
-        eventDao.insert(event)
-    }
+    override fun insert(event: Event) = eventDao.insert(event)
 
-    override fun delete(event: Event) {
-        eventDao.delete(event)
-    }
+    override fun delete(event: Event) = eventDao.delete(event)
 
-    override fun selectByOwnerId(id: Long): List<Event> {
-        return eventDao.selectByOwnerId(id)
-    }
+    override fun selectByOwnerId(id: Long): List<Event> = eventDao.selectByOwnerId(id)
 
-    override fun selectAll(): List<Event> {
-        return eventDao.selectAll()
-    }
+    override fun selectById(id: Long): Event = eventDao.selectById(id)
+
+    override fun selectAll(): List<Event> = eventDao.selectAll()
 }

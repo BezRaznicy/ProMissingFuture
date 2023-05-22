@@ -1,5 +1,8 @@
 package ru.bezraznicy.promissingfuture.presentation
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +17,6 @@ import ru.bezraznicy.promissingfuture.presentation.theme.PromissingFutureTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             PromissingFutureTheme {
                 val navController = rememberNavController()
