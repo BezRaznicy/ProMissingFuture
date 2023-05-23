@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Timer
+import androidx.compose.material.icons.outlined.TimerOff
 import androidx.compose.material3.DismissState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -19,7 +20,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import ru.bezraznicy.promissingfuture.domain.model.Event
 import ru.bezraznicy.promissingfuture.presentation.theme.PromissingFutureTheme
-import java.util.Date
+import java.time.Duration
+import java.time.Period
+import java.time.ZonedDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,47 +37,56 @@ fun EventItem(
         dismissState = dismissState,
         onClick = onClick,
         onSwipeRemove = onSwipeRemove,
-        onSwipeShare = onSwipeShare) {
+        onSwipeShare = onSwipeShare
+    ) {
         ListItem(
             headlineContent = {
-                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Text(text = event.name)
                     Row {
                         if (event.time != null) {
-                            val remainingTime = getCronInterval(event.time)
+                            val remainingTime = getRemainingTime(event.time)
                             // Если осталось меньше минуты, то показывать не нужно таймер
-                            if (remainingTime > 60000L) {
-                                Text(text = formatDuration(remainingTime))
-                            }
-                            Icon(imageVector = Icons.Outlined.Timer, contentDescription = null)
+                            val s = remainingTime.seconds
+                            Text(text = "%02d:%02d".format(s / 3600, (s % 3600) / 60))
+                            Icon(
+                                imageVector = if (remainingTime == Duration.ZERO) Icons.Outlined.TimerOff else Icons.Outlined.Timer,
+                                contentDescription = null
+                            )
                         }
                     }
                 }
             },
             supportingContent = {
-                event.description?.let { Text(text = it, maxLines = 2, overflow = TextOverflow.Ellipsis) }
+                event.description?.let {
+                    Text(
+                        text = it,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         )
     }
 }
 
-fun getCronInterval(cronExpression: String): Long {
-    return 0L
-}
-
-fun formatDuration(milliseconds: Long): String {
-    val days = (milliseconds / (1000 * 60 * 60 * 24)).toInt()
-    val hours = ((milliseconds / (1000 * 60 * 60)) % 24).toInt()
-    val minutes = ((milliseconds / (1000 * 60)) % 60).toInt()
-    return if (days > 0) {
-        String.format("%d:%02d:%02d", days, hours, minutes)
-    } else if (hours > 0) {
-        String.format("%02d:%02d", hours, minutes)
-    } else {
-        String.format("%02d", minutes)
+fun getRemainingTime(cronExpression: String): Duration {
+    val parts = cronExpression.split("$")
+    val startDateTime = ZonedDateTime.parse(parts[0])
+    val period = if (parts.size == 3) Period.parse(parts[2]) else Period.ZERO
+    var triggerTime = startDateTime.plus(period)
+    if (period != Period.ZERO && triggerTime < ZonedDateTime.now()) {
+        do {
+            triggerTime = triggerTime.plus(period)
+        } while (triggerTime < ZonedDateTime.now())
+    } else if (triggerTime < ZonedDateTime.now()) {
+        return Duration.ZERO
     }
+    return Duration.between(ZonedDateTime.now(), triggerTime)
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -86,7 +98,7 @@ fun EventItemPreviewLight() {
                 event = Event(
                     "Название",
                     "Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda",
-                    "* * * 18 * ? *"
+                    ""
                 ),
                 dismissState = rememberDismissState(),
                 onClick = { /*TODO*/ },

@@ -58,7 +58,7 @@ fun TimeNotificationField(onValueChange: (String) -> Unit, modifier: Modifier = 
 
     LaunchedEffect(key1 = startDateTime, key2 = period, key3 = duration) {
         val result =
-            if (isPeriodic)
+            if (period != Period.ZERO)
                 "$startDateTime$$duration$$period"
             else
                 "$startDateTime$$duration"
@@ -293,16 +293,13 @@ fun StartTimePicker(
         val timePickerState by remember {
             mutableStateOf(TimePickerState(zonedDateTime.hour, zonedDateTime.minute, true))
         }
-        AlertDialog(onDismissRequest = { showDialog = false }) {
+        AlertDialog(onDismissRequest = {
+            showDialog = false
+            onValueChange(timePickerState.hour, timePickerState.minute)
+        }) {
             Surface(color = MaterialTheme.colorScheme.background, shape = MaterialTheme.shapes.large) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     TimePicker(state = timePickerState)
-                    TextButton(onClick = {
-                        showDialog = false
-                        onValueChange(timePickerState.hour, timePickerState.minute)
-                    }) {
-                        Text(text = "Подтвердить", color = Color.DarkGray)
-                    }
                 }
             }
         }

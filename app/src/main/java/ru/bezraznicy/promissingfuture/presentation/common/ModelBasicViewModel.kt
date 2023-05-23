@@ -60,8 +60,11 @@ class ModelBasicViewModel<T: Model>(
                 state = state.copy(removing = true)
                 viewModelScope.launch(Dispatchers.IO) {
                     modelRepository.delete(event.model)
-                    delay(1500)
-                    val catalogRepo = modelRepository.selectAll()
+                    val catalogRepo = if (modelOwner == null) {
+                        modelRepository.selectAll()
+                    } else {
+                        modelRepository.selectByOwnerId(modelOwner.id!!)
+                    }
                     withContext(Dispatchers.Main) {
                         if (!state.models.containsAll(catalogRepo))
                             state = state.copy(wantToRemove = null, removing = false, models = catalogRepo)

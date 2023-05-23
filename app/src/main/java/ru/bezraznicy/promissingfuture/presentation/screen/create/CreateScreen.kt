@@ -33,7 +33,7 @@ import ru.bezraznicy.promissingfuture.presentation.common.ModelType
 import ru.bezraznicy.promissingfuture.presentation.common.components.LoadingDialog
 import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
 import ru.bezraznicy.promissingfuture.presentation.screen.create.components.FormTextField
-import ru.bezraznicy.promissingfuture.presentation.screen.create.components.scheduleEventNotification
+import ru.bezraznicy.promissingfuture.presentation.notification.scheduleEventNotification
 import ru.bezraznicy.promissingfuture.presentation.screen.create.components.TimeNotificationField
 import ru.bezraznicy.promissingfuture.presentation.screen.create.vm.CreateEvent
 import ru.bezraznicy.promissingfuture.presentation.screen.create.vm.CreateState
@@ -66,7 +66,7 @@ fun CreateScreen(
         Row(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth(0.93f)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
         ) {
             IconButton(onClick = { onEvent(CreateEvent.SaveModel(name, description, time)) }) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -78,8 +78,8 @@ fun CreateScreen(
                 Icon(Icons.Filled.Save, contentDescription = null)
             }
         }
-        Column(modifier = Modifier
-            .fillMaxWidth(0.95f)
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 6.dp)
         ) {
             FormTextField(
                 value = name,

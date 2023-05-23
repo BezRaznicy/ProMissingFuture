@@ -25,6 +25,8 @@ import ru.bezraznicy.promissingfuture.presentation.screen.models.components.Cata
 import ru.bezraznicy.promissingfuture.presentation.screen.models.components.EventItem
 import ru.bezraznicy.promissingfuture.presentation.screen.models.components.KnowledgeItem
 
+
+// TODO: redo MVI screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModelsScreen(
@@ -46,6 +48,7 @@ fun ModelsScreen(
         is Catalog -> AbstractScreen(
                 repositoryProvider.eventRepository,
                 onSelectModel = { selectedModel = it },
+                ownerModel = selectedModel,
                 lazyItemScope = { event, dismissState, onClick, onRemove, onShare ->
                     EventItem(event, dismissState, { onClick(event) }, onRemove, onShare)
                 },
@@ -64,6 +67,7 @@ fun ModelsScreen(
                     onSwipeShare = onShare
                 )
             },
+            ownerModel = selectedModel,
             modelType = ModelType.KNOWLEDGE,
             navController = navController
         )

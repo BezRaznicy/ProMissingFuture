@@ -1,11 +1,10 @@
-package ru.bezraznicy.promissingfuture.presentation.screen.create.components
+package ru.bezraznicy.promissingfuture.presentation.notification
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import ru.bezraznicy.promissingfuture.domain.model.Event
-import ru.bezraznicy.promissingfuture.presentation.notification.NotificationPublisher
 import java.time.Period
 import java.time.ZonedDateTime
 
@@ -14,8 +13,15 @@ fun scheduleEventNotification(context: Context, event: Event) {
         val parts = event.time.split("$")
         val startDateTime = ZonedDateTime.parse(parts[0])
         val period = if (parts.size == 3) Period.parse(parts[2]) else Period.ZERO
-
-        val triggerTime = startDateTime.plus(period).toInstant().toEpochMilli()
+        var triggerTime = startDateTime.plus(period)
+        if (period != Period.ZERO && triggerTime < ZonedDateTime.now()) {
+            do {
+                triggerTime = triggerTime.plus(period)
+            } while (triggerTime < ZonedDateTime.now())
+        } else if (triggerTime < ZonedDateTime.now()) {
+            // Нет нужды уведомлять прошедшее
+            return
+        }
         val notificationIntent = Intent(context, NotificationPublisher::class.java)
         notificationIntent.putExtra("id", event.id)
         val pendingIntent = PendingIntent.getBroadcast(
@@ -25,6 +31,6 @@ fun scheduleEventNotification(context: Context, event: Event) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, triggerTime.toInstant().toEpochMilli(), pendingIntent)
     }
 }
