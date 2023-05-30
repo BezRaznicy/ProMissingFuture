@@ -56,6 +56,7 @@ fun CreateScreen(
         val context = LocalContext.current
         LaunchedEffect(key1 = Unit) {
             if (state.finalModel is Event) {
+                // Нельзя во view model, так как использует context :(
                 scheduleEventNotification(event = state.finalModel, context = context)
             }
             navController.navigate(Screen.Launcher.route)

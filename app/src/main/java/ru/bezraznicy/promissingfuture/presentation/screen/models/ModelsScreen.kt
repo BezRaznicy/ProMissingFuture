@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import ru.bezraznicy.promissingfuture.data.repository.ModelRepository
 import ru.bezraznicy.promissingfuture.data.repository.RepositoryProvider
 import ru.bezraznicy.promissingfuture.domain.model.Catalog
@@ -21,6 +22,8 @@ import ru.bezraznicy.promissingfuture.presentation.common.ModelBasicScreen
 import ru.bezraznicy.promissingfuture.presentation.common.ModelBasicViewModel
 import ru.bezraznicy.promissingfuture.presentation.common.ModelType
 import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
+import ru.bezraznicy.promissingfuture.presentation.screen.create.vm.CreateEvent
+import ru.bezraznicy.promissingfuture.presentation.screen.create.vm.CreateState
 import ru.bezraznicy.promissingfuture.presentation.screen.models.components.CatalogListItem
 import ru.bezraznicy.promissingfuture.presentation.screen.models.components.EventItem
 import ru.bezraznicy.promissingfuture.presentation.screen.models.components.KnowledgeItem
@@ -30,8 +33,9 @@ import ru.bezraznicy.promissingfuture.presentation.screen.models.components.Know
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModelsScreen(
-    repositoryProvider: RepositoryProvider,
-    navController: NavController
+    navController: NavController = rememberNavController(),
+    state: CreateState = CreateState(ModelType.EVENT),
+    onEvent: (CreateEvent) -> Unit = {}
 ) {
     var selectedModel: Model? by remember { mutableStateOf(null) }
 
