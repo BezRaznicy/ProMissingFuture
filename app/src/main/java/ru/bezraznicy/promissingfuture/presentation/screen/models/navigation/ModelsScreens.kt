@@ -6,17 +6,17 @@ const val OWNER_ID = "ownerid"
 
 sealed class ModelsScreens(val route: String) {
 
-    object Catalogs: ModelsScreens(route = "catalog")
+    object Catalogs: ModelsScreens(route = "$INNER_MODULE_ROUTE/catalog")
 
-    class Events(owner: Model): ModelsScreens(route = "events/${owner.id}") {
+    class Events(owner: Model): ModelsScreens(route = "$INNER_MODULE_ROUTE/events/${owner.id}") {
         companion object {
-            const val EMPTY_ROUTE = "create/{$OWNER_ID}"
+            const val EMPTY_ROUTE = "$INNER_MODULE_ROUTE/events/{$OWNER_ID}"
         }
     }
 
-    class Knowledges(owner: Model): ModelsScreens(route = "knowledges/${owner.id}") {
+    class Knowledges(owner: Model): ModelsScreens(route = "$INNER_MODULE_ROUTE/knowledges/${owner.id}") {
         companion object {
-            const val EMPTY_ROUTE = "knowledges/{$OWNER_ID}"
+            const val EMPTY_ROUTE = "$INNER_MODULE_ROUTE/knowledges/{$OWNER_ID}"
         }
     }
 }

@@ -1,7 +1,9 @@
 package ru.bezraznicy.promissingfuture.presentation.screen.models.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,10 +25,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.compositeOver
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 fun ModelItem(
     dismissState: DismissState,
     onClick: () -> Unit,
+    onLongClick: () -> Unit,
     onSwipeRemove: () -> Unit,
     onSwipeShare: () -> Unit,
     listItem: @Composable RowScope.() -> Unit,
@@ -55,9 +58,7 @@ fun ModelItem(
             }
         },
         dismissContent = listItem,
-        modifier = Modifier.clickable {
-            onClick()
-        }
+        modifier = Modifier.combinedClickable(onClick = onClick, onLongClick = onLongClick)
     )
 
     LaunchedEffect(dismissState.targetValue, dismissState.progress) {

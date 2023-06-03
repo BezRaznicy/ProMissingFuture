@@ -28,14 +28,16 @@ import java.time.ZonedDateTime
 @Composable
 fun EventItem(
     event: Event,
-    dismissState: DismissState,
-    onClick: () -> Unit,
-    onSwipeRemove: () -> Unit,
-    onSwipeShare: () -> Unit
+    dismissState: DismissState = rememberDismissState(),
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
+    onSwipeRemove: () -> Unit = {},
+    onSwipeShare: () -> Unit = {}
 ) {
     ModelItem(
         dismissState = dismissState,
         onClick = onClick,
+        onLongClick = onLongClick,
         onSwipeRemove = onSwipeRemove,
         onSwipeShare = onSwipeShare
     ) {
@@ -99,12 +101,8 @@ fun EventItemPreviewLight() {
                     "Название",
                     "Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda",
                     ""
-                ),
-                dismissState = rememberDismissState(),
-                onClick = { /*TODO*/ },
-                onSwipeRemove = { /*TODO*/ }) {
-
-            }
+                )
+            )
         }
     }
 }
@@ -120,12 +118,8 @@ fun EventItemPreviewDark() {
                     "Название",
                     "Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda",
                     "* * * ? * * *"
-                ),
-                dismissState = rememberDismissState(),
-                onClick = { /*TODO*/ },
-                onSwipeRemove = { /*TODO*/ }) {
-
-            }
+                )
+            )
         }
     }
 }

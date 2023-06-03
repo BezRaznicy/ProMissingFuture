@@ -1,4 +1,4 @@
-package ru.bezraznicy.promissingfuture.presentation.common
+package ru.bezraznicy.promissingfuture.presentation.screen.models.common
 
 import ru.bezraznicy.promissingfuture.domain.model.Catalog
 import ru.bezraznicy.promissingfuture.domain.model.Event

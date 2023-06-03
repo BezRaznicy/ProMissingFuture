@@ -1,4 +1,4 @@
-package ru.bezraznicy.promissingfuture.presentation.common
+package ru.bezraznicy.promissingfuture.presentation.screen.models.common
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +22,7 @@ import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
  */
 class ModelBasicViewModel<T: Model>(
     private val modelRepository: ModelRepository<T>,
-    private val modelOwner: Model? = null
+    private val modelOwner: Long? = null
 ): ViewModel() {
     var state by mutableStateOf(ModelBasicState<T>(modelOwner = modelOwner))
         private set
@@ -32,7 +32,7 @@ class ModelBasicViewModel<T: Model>(
             val modelRepo = if (modelOwner == null) {
                 modelRepository.selectAll()
             } else {
-                modelRepository.selectByOwnerId(modelOwner.id!!)
+                modelRepository.selectByOwnerId(modelOwner)
             }
             withContext(Dispatchers.Main) {
                 if (!state.models.containsAll(modelRepo))
@@ -63,7 +63,7 @@ class ModelBasicViewModel<T: Model>(
                     val catalogRepo = if (modelOwner == null) {
                         modelRepository.selectAll()
                     } else {
-                        modelRepository.selectByOwnerId(modelOwner.id!!)
+                        modelRepository.selectByOwnerId(modelOwner)
                     }
                     withContext(Dispatchers.Main) {
                         if (!state.models.containsAll(catalogRepo))
@@ -73,11 +73,5 @@ class ModelBasicViewModel<T: Model>(
             }
             is ModelBasicEvents.ShareModel -> TODO()
         }
-    }
-
-    private fun getChildModelTypeOf(model: Model?) = when(model) {
-        is Catalog -> ModelType.EVENT
-        is Event -> ModelType.KNOWLEDGE
-        else -> ModelType.CATALOG
     }
 }

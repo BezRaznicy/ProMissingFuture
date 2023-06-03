@@ -1,4 +1,4 @@
-package ru.bezraznicy.promissingfuture.presentation.common.components
+package ru.bezraznicy.promissingfuture.presentation.screen.models.common.components
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -6,7 +6,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import ru.bezraznicy.promissingfuture.presentation.common.ModelType
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.ModelType
 import java.util.Locale
 
 @Composable

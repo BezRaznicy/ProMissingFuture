@@ -2,7 +2,7 @@ package ru.bezraznicy.promissingfuture.domain.model
 
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
-import ru.bezraznicy.promissingfuture.presentation.common.ModelType
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.ModelType
 
 sealed class Model(
     val name: String,

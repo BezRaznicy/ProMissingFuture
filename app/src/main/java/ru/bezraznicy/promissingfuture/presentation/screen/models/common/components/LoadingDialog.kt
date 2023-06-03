@@ -1,4 +1,4 @@
-package ru.bezraznicy.promissingfuture.presentation.common.components
+package ru.bezraznicy.promissingfuture.presentation.screen.models.common.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -18,14 +18,16 @@ import ru.bezraznicy.promissingfuture.presentation.theme.PromissingFutureTheme
 @Composable
 fun KnowledgeItem(
     knowledge: Knowledge,
-    dismissState: DismissState,
-    onClick: () -> Unit,
-    onSwipeRemove: () -> Unit,
-    onSwipeShare: () -> Unit
+    dismissState: DismissState = rememberDismissState(),
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
+    onSwipeRemove: () -> Unit = {},
+    onSwipeShare: () -> Unit = {}
 ) {
     ModelItem(
         dismissState = dismissState,
         onClick = onClick,
+        onLongClick = onLongClick,
         onSwipeRemove = onSwipeRemove,
         onSwipeShare = onSwipeShare) {
         ListItem(
@@ -48,12 +50,8 @@ fun KnowledgeItemPreviewLight() {
             knowledge = Knowledge(
                 "Название",
                 "Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda"
-            ),
-            dismissState = rememberDismissState(),
-            onClick = { /*TODO*/ },
-            onSwipeRemove = { /*TODO*/ }) {
-
-        }
+            )
+        )
     }
 }
 
@@ -66,11 +64,7 @@ fun KnowledgeItemPreviewDark() {
             knowledge = Knowledge(
                 "Название",
                 "Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda Lorem ipsum de falso nor astranda"
-            ),
-            dismissState = rememberDismissState(),
-            onClick = { /*TODO*/ },
-            onSwipeRemove = { /*TODO*/ }) {
-
-        }
+            )
+        )
     }
 }

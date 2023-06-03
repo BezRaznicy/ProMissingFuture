@@ -5,9 +5,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.navigation.NavArgumentBuilder
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,10 +16,9 @@ import ru.bezraznicy.promissingfuture.domain.model.Catalog
 import ru.bezraznicy.promissingfuture.domain.model.Event
 import ru.bezraznicy.promissingfuture.domain.model.Knowledge
 import ru.bezraznicy.promissingfuture.domain.model.Model
-import ru.bezraznicy.promissingfuture.presentation.common.ModelType
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.ModelType
 import ru.bezraznicy.promissingfuture.presentation.screen.create.CreateScreen
 import ru.bezraznicy.promissingfuture.presentation.screen.create.vm.CreateViewModel
-import ru.bezraznicy.promissingfuture.presentation.screen.models.ModelsScreen
 import ru.bezraznicy.promissingfuture.presentation.screen.models.navigation.modelsNavigation
 
 @Composable
@@ -31,9 +27,10 @@ fun SetupNavGraph(navController: NavHostController) {
     val context = LocalContext.current
     // Get the Application instance
     val application = context.applicationContext as PromissingFuture
-    NavHost(navController = navController, startDestination = Screen.Launcher.route) {
+    NavHost(navController = navController, startDestination = "models") {
         // Показать список каталогов, список событий в каталоге и список знаний
-        modelsNavigation(navController)
+        // models
+        modelsNavigation(navController, application)
 
         // Создать модель
         composable(
@@ -47,7 +44,7 @@ fun SetupNavGraph(navController: NavHostController) {
                 ?.let { if (it == -1L) null else it }
             val modelType = ModelType.valueOf(backStackEntry.arguments!!.getString(MODEL_TYPE)!!)
             val createViewModel: CreateViewModel<Model> = viewModel(
-                // TODO: утечка памяти? Каждый созданный экран = 1 ViewModel в памяти, что плохо
+                // TODO: утечка памяти? Каждый созданный экран = 1 ViewModel в памяти, что плохо наверное
                  factory = viewModelFactory {
                      initializer {
                          when (modelType) {
@@ -83,8 +80,7 @@ fun SetupNavGraph(navController: NavHostController) {
         composable(
             route = Screen.Replace.EMPTY_ROUTE,
             arguments = listOf(
-                navArgument(MODEL_TO_EDIT) { type = NavType.StringType },
-                navArgument(MODEL_TYPE) { type = NavType.EnumType(ModelType::class.java) }
+                navArgument(MODEL) { type = NavType.StringType }
             ),
         ) { backStackEntry ->
             val gson = backStackEntry.arguments!!.getString(MODEL_TO_EDIT)

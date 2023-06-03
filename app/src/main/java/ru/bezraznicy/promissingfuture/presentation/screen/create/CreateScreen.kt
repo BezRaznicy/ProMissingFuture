@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ru.bezraznicy.promissingfuture.domain.model.Event
-import ru.bezraznicy.promissingfuture.presentation.common.ModelType
-import ru.bezraznicy.promissingfuture.presentation.common.components.LoadingDialog
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.ModelType
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.components.LoadingDialog
 import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
 import ru.bezraznicy.promissingfuture.presentation.screen.create.components.FormTextField
 import ru.bezraznicy.promissingfuture.presentation.notification.scheduleEventNotification
@@ -59,7 +59,7 @@ fun CreateScreen(
                 // Нельзя во view model, так как использует context :(
                 scheduleEventNotification(event = state.finalModel, context = context)
             }
-            navController.navigate(Screen.Launcher.route)
+            navController.popBackStack()
         }
     }
 

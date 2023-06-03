@@ -1,4 +1,4 @@
-package ru.bezraznicy.promissingfuture.presentation.common
+package ru.bezraznicy.promissingfuture.presentation.screen.models.common
 
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material3.DismissState
@@ -6,10 +6,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import ru.bezraznicy.promissingfuture.domain.model.Model
-import ru.bezraznicy.promissingfuture.presentation.common.components.AddNewDialog
-import ru.bezraznicy.promissingfuture.presentation.common.components.BasicModelList
-import ru.bezraznicy.promissingfuture.presentation.common.components.ConfirmRemoveDialog
-import ru.bezraznicy.promissingfuture.presentation.common.components.LoadingDialog
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.components.AddNewDialog
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.components.BasicModelList
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.components.ConfirmRemoveDialog
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.components.LoadingDialog
 import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)

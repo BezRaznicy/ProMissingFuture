@@ -14,7 +14,7 @@ import ru.bezraznicy.promissingfuture.domain.model.Event
 import ru.bezraznicy.promissingfuture.domain.model.Knowledge
 import ru.bezraznicy.promissingfuture.domain.model.Model
 import ru.bezraznicy.promissingfuture.domain.model.ModelBuilder
-import ru.bezraznicy.promissingfuture.presentation.common.ModelType
+import ru.bezraznicy.promissingfuture.presentation.screen.models.common.ModelType
 import ru.bezraznicy.promissingfuture.presentation.navigation.Screen
 
 class CreateViewModel<T: Model>(

@@ -33,14 +33,16 @@ import ru.bezraznicy.promissingfuture.presentation.theme.PromissingFutureTheme
 @OptIn(ExperimentalMaterial3Api::class)
 fun CatalogListItem(
     catalog: Catalog,
-    dismissState: DismissState,
-    onClick: () -> Unit,
-    onSwipeRemove: () -> Unit,
-    onSwipeShare: () -> Unit
+    dismissState: DismissState = rememberDismissState(),
+    onClick: () -> Unit = {},
+    onLongClick: () -> Unit = {},
+    onSwipeRemove: () -> Unit = {},
+    onSwipeShare: () -> Unit = {}
 ) {
     ModelItem(
         dismissState = dismissState,
         onClick = onClick,
+        onLongClick = onLongClick,
         onSwipeRemove = onSwipeRemove,
         onSwipeShare = onSwipeShare
     ) {
@@ -60,7 +62,7 @@ fun CatalogListItem(
 fun CatalogListItemPreviewLight() {
     PromissingFutureTheme {
         Surface(color = MaterialTheme.colorScheme.background) {
-            CatalogListItem(catalog = Catalog("Работа"), rememberDismissState(), {}, {}, {})
+            CatalogListItem(catalog = Catalog("Работа"))
         }
     }
 }
@@ -70,6 +72,6 @@ fun CatalogListItemPreviewLight() {
 @Composable
 fun CatalogListItemPreviewDark() {
     PromissingFutureTheme {
-        CatalogListItem(catalog = Catalog("Работа"), rememberDismissState(), {}, {}, {})
+        CatalogListItem(catalog = Catalog("Работа"))
     }
 }
